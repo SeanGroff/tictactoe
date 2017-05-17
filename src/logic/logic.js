@@ -1,12 +1,12 @@
 /* eslint-disable */
 
-// Placeholder board for initial state
-export const board = {
+// Placeholder gameBoard for initial state
+export const gameBoard = {
   0: ['', '', ''],
   1: ['', '', ''],
   2: ['', '', '']
 };
-const rows = Object.keys(board).map(row => board[row]);
+const rows = Object.keys(gameBoard).map(row => gameBoard[row]);
 
 /* ============================================================================
                                  Row Logic

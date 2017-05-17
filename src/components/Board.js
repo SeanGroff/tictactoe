@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { board } from '../logic/logic';
+import { gameBoard } from '../logic/Logic';
+import { X, O } from '../symbols/Symbols';
+import XSymbol from './XSymbol';
+import OSymbol from './OSymbol';
+import BlankSymbol from './BlankSymbol';
 
-const GameBoard = styled.div`
+const BoardContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -24,16 +28,31 @@ const Cell = styled.span`
 `;
 
 const Board = props => {
+  const addSymbol = () => console.log('Fire the addSymbol Action Creator!');
+
+  const getSymbol = (rowIndex, cellPosition, symbol) => {
+    if (symbol === X) {
+      return <XSymbol />;
+    }
+
+    if (symbol === O) {
+      return <OSymbol />;
+    }
+    return <BlankSymbol addSymbol={addSymbol} />;
+  };
+
   return (
-    <GameBoard>
-      {Object.keys(board).map(rowIndex => (
+    <BoardContainer>
+      {Object.keys(gameBoard).map(rowIndex => (
         <Row id={`row-${rowIndex}`} key={rowIndex}>
-          {board[rowIndex].map((symbol, position) => (
-            <Cell id={`col-${rowIndex}-${position}`} key={position} />
+          {gameBoard[rowIndex].map((symbol, cellPosition) => (
+            <Cell id={`col-${rowIndex}-${cellPosition}`} key={cellPosition}>
+              {getSymbol(rowIndex, cellPosition, symbol)}
+            </Cell>
           ))}
         </Row>
       ))}
-    </GameBoard>
+    </BoardContainer>
   );
 };
 

@@ -22,7 +22,6 @@
     "test": "yarn lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "jest": "react-scripts test --env=jsdom",
-    "lint": "eslint src",
-    "update snapshot": "yarn jest -- -u"
+    "lint": "eslint src"
   }
 }

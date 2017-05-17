@@ -6,39 +6,75 @@ exports[`test renders without crashing 1`] = `
     id="row-0">
     <span
       className="kNuHNb"
-      id="col-0-0" />
+      id="col-0-0">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
     <span
       className="kNuHNb"
-      id="col-0-1" />
+      id="col-0-1">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
     <span
       className="kNuHNb"
-      id="col-0-2" />
+      id="col-0-2">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
   </div>
   <div
     className="igXHqs"
     id="row-1">
     <span
       className="kNuHNb"
-      id="col-1-0" />
+      id="col-1-0">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
     <span
       className="kNuHNb"
-      id="col-1-1" />
+      id="col-1-1">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
     <span
       className="kNuHNb"
-      id="col-1-2" />
+      id="col-1-2">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
   </div>
   <div
     className="igXHqs"
     id="row-2">
     <span
       className="kNuHNb"
-      id="col-2-0" />
+      id="col-2-0">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
     <span
       className="kNuHNb"
-      id="col-2-1" />
+      id="col-2-1">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
     <span
       className="kNuHNb"
-      id="col-2-2" />
+      id="col-2-2">
+      <div
+        className="hdKDHS"
+        onClick={[Function]} />
+    </span>
   </div>
 </div>
 `;
