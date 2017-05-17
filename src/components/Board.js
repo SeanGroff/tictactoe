@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-// Placeholder board for initial state
-const board = ['', '', '', '', '', '', '', '', ''];
+import { board } from '../logic/logic';
 
 const GameBoard = styled.div`
   display: flex;
@@ -12,21 +10,28 @@ const GameBoard = styled.div`
   max-width: 150px;
 `;
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const Cell = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50px;
   height: 50px;
-  border-color: black;
-  border-style: solid;
 `;
 
 const Board = props => {
   return (
     <GameBoard>
-      {board.map((cell, index) => (
-        <Cell id={`cell-${index}`} position={index} key={index}>{cell}</Cell>
+      {Object.keys(board).map(rowIndex => (
+        <Row id={`row-${rowIndex}`} key={rowIndex}>
+          {board[rowIndex].map((symbol, position) => (
+            <Cell id={`col-${rowIndex}-${position}`} key={position} />
+          ))}
+        </Row>
       ))}
     </GameBoard>
   );

@@ -15,38 +15,21 @@ body {
   height: 100%;
 }
 
-#cell-0 {
-  border-width: 0 3px 3px 0;
-}
-
-#cell-1 {
+#row-0 {
+  border-color: black;
+  border-style: solid;
   border-width: 0 0 3px 0;
 }
 
-#cell-2 {
-  border-width: 0 0 3px 3px;
-}
-
-#cell-3 {
-  border-width: 0 3px 0 0;
-}
-
-#cell-4 {
-  border-width: 0;
-}
-
-#cell-5 {
-  border-width: 0 0 0 3px;
-}
-
-#cell-6 {
-  border-width: 3px 3px 0 0;
-}
-
-#cell-7 {
+#row-2 {
+  border-color: black;
+  border-style: solid;
   border-width: 3px 0 0 0;
 }
 
-#cell-8 {
-  border-width: 3px 0 0 3px;
+span[id$='1'] {
+  border-color: black;
+  border-style: solid;
+  border-width: 0 3px 0 3px;
+  width: 56px;
 }

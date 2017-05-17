@@ -1,50 +1,44 @@
 exports[`test renders without crashing 1`] = `
 <div
   className="bcTBmH">
-  <span
-    className="jrNWCD"
-    id="cell-0">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-1">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-2">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-3">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-4">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-5">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-6">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-7">
-    
-  </span>
-  <span
-    className="jrNWCD"
-    id="cell-8">
-    
-  </span>
+  <div
+    className="igXHqs"
+    id="row-0">
+    <span
+      className="kNuHNb"
+      id="col-0-0" />
+    <span
+      className="kNuHNb"
+      id="col-0-1" />
+    <span
+      className="kNuHNb"
+      id="col-0-2" />
+  </div>
+  <div
+    className="igXHqs"
+    id="row-1">
+    <span
+      className="kNuHNb"
+      id="col-1-0" />
+    <span
+      className="kNuHNb"
+      id="col-1-1" />
+    <span
+      className="kNuHNb"
+      id="col-1-2" />
+  </div>
+  <div
+    className="igXHqs"
+    id="row-2">
+    <span
+      className="kNuHNb"
+      id="col-2-0" />
+    <span
+      className="kNuHNb"
+      id="col-2-1" />
+    <span
+      className="kNuHNb"
+      id="col-2-2" />
+  </div>
 </div>
 `;
