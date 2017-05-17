@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { gameBoard } from '../logic/Logic';
-import { X, O } from '../symbols/Symbols';
+import { gameBoard } from '../logic/logic';
+import { X, O } from '../symbols/symbols';
 import XSymbol from './XSymbol';
 import OSymbol from './OSymbol';
 import BlankSymbol from './BlankSymbol';
