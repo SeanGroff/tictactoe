@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Board from '../src/components/Board';
+import Board from '../components/Board';
 import renderer from 'react-test-renderer';
 
 it('renders without crashing', () => {
