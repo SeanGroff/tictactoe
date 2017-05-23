@@ -6,8 +6,8 @@ const BlankCell = styled.div`
   height: 100%;
 `;
 
-const BlankSymbol = props => {
-  return <BlankCell onClick={() => props.addSymbol()} />;
+const BlankSymbol = ({ row, cell, turn, ...props }) => {
+  return <BlankCell onClick={() => props.addSymbol(row, cell, turn)} />;
 };
 
 export default BlankSymbol;

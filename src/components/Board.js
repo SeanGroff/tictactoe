@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { gameBoard } from '../logic/logic';
 import { X, O } from '../symbols/symbols';
 import XSymbol from './XSymbol';
 import OSymbol from './OSymbol';
 import BlankSymbol from './BlankSymbol';
+import { ADD_SYMBOL } from '../actions/constants';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -28,7 +29,8 @@ const Cell = styled.span`
 `;
 
 const Board = props => {
-  const addSymbol = () => console.log('Fire the addSymbol Action Creator!');
+  const addSymbol = (rowIndex, cellPosition, symbol) =>
+    !props.won && props.addSymbol(rowIndex, cellPosition, symbol);
 
   const getSymbol = (rowIndex, cellPosition, symbol) => {
     if (symbol === X) {
@@ -38,14 +40,21 @@ const Board = props => {
     if (symbol === O) {
       return <OSymbol />;
     }
-    return <BlankSymbol addSymbol={addSymbol} />;
+    return (
+      <BlankSymbol
+        addSymbol={addSymbol}
+        row={rowIndex}
+        cell={cellPosition}
+        turn={props.turn}
+      />
+    );
   };
 
   return (
     <BoardContainer>
-      {Object.keys(gameBoard).map(rowIndex => (
+      {Object.keys(props.gameBoard).map(rowIndex => (
         <Row id={`row-${rowIndex}`} key={rowIndex}>
-          {gameBoard[rowIndex].map((symbol, cellPosition) => (
+          {props.gameBoard[rowIndex].map((symbol, cellPosition) => (
             <Cell id={`col-${rowIndex}-${cellPosition}`} key={cellPosition}>
               {getSymbol(rowIndex, cellPosition, symbol)}
             </Cell>
@@ -56,4 +65,21 @@ const Board = props => {
   );
 };
 
-export default Board;
+const mapStateToProps = state => ({
+  turn: state.turn,
+  gameBoard: state.gameBoard,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addSymbol: (row, position, symbol) =>
+    dispatch({
+      type: ADD_SYMBOL,
+      payload: {
+        row,
+        position,
+        symbol,
+      },
+    }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

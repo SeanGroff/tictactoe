@@ -1,11 +1,4 @@
 /* eslint-disable */
-
-// Placeholder gameBoard for initial state
-export const gameBoard = {
-  0: ['', '', ''],
-  1: ['', '', ''],
-  2: ['', '', '']
-};
 const rows = Object.keys(gameBoard).map(row => gameBoard[row]);
 
 /* ============================================================================
