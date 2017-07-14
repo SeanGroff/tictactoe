@@ -1,8 +1,4 @@
-import {
-  ADD_SYMBOL,
-  CHOOSE_PLAYER_SYMBOL,
-  RESTART,
-} from './constants';
+import { ADD_SYMBOL, CHOOSE_PLAYER_SYMBOL, RESTART } from './constants';
 
 export const addSymbol = (row, position, symbol) => ({
   type: ADD_SYMBOL,

@@ -53,15 +53,15 @@ const Board = props => {
 
   return (
     <BoardContainer>
-      {Object.keys(props.gameBoard).map(rowIndex => (
+      {Object.keys(props.gameBoard).map(rowIndex =>
         <Row id={`row-${rowIndex}`} key={rowIndex}>
-          {props.gameBoard[rowIndex].map((symbol, cellPosition) => (
+          {props.gameBoard[rowIndex].map((symbol, cellPosition) =>
             <Cell id={`col-${rowIndex}-${cellPosition}`} key={cellPosition}>
               {getSymbol(rowIndex, cellPosition, symbol)}
-            </Cell>
-          ))}
-        </Row>
-      ))}
+            </Cell>,
+          )}
+        </Row>,
+      )}
     </BoardContainer>
   );
 };
