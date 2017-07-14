@@ -1,5 +1,9 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import { ADD_SYMBOL, RESTART } from '../actions/constants';
+import {
+  ADD_SYMBOL,
+  CHOOSE_PLAYER_SYMBOL,
+  RESTART,
+} from '../actions/constants';
 import { O, X } from '../symbols/symbols';
 
 export const initialState = {
@@ -10,7 +14,7 @@ export const initialState = {
   },
   won: undefined,
   draw: false,
-  turn: O,
+  turn: '',
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -23,6 +27,11 @@ const gameReducer = (state = initialState, action) => {
         newState.turn = newState.turn === O ? X : O;
       }
       return newState;
+    case CHOOSE_PLAYER_SYMBOL:
+      return {
+        ...state,
+        turn: action.payload,
+      };
     case RESTART:
       return initialState;
     default:

@@ -1,2 +1,3 @@
 export const ADD_SYMBOL = 'ADD_SYMBOL';
+export const CHOOSE_PLAYER_SYMBOL = 'CHOOSE_PLAYER_SYMBOL';
 export const RESTART = 'RESTART';

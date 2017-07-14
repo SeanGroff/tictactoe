@@ -13,6 +13,7 @@ const BoardContainer = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 150px;
+  margin: auto;
 `;
 
 const Row = styled.div`
