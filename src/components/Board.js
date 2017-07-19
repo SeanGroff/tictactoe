@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { X, O } from '../symbols/symbols';
 import XSymbol from './XSymbol';
 import OSymbol from './OSymbol';
 import BlankSymbol from './BlankSymbol';
 import { ADD_SYMBOL } from '../actions/constants';
+import { X, O } from '../symbols/symbols';
 
 const BoardContainer = styled.div`
-  display: flex;
+  display: ${props => (props.hide ? 'flex' : 'none')};
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
@@ -52,7 +52,7 @@ const Board = props => {
   };
 
   return (
-    <BoardContainer>
+    <BoardContainer hide={props.turn}>
       {Object.keys(props.gameBoard).map(rowIndex =>
         <Row id={`row-${rowIndex}`} key={rowIndex}>
           {props.gameBoard[rowIndex].map((symbol, cellPosition) =>

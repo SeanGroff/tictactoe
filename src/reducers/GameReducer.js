@@ -4,7 +4,7 @@ import {
   CHOOSE_PLAYER_SYMBOL,
   RESTART,
 } from '../actions/constants';
-import { O, X } from '../symbols/symbols';
+import { X, O } from '../symbols/symbols';
 
 export const initialState = {
   gameBoard: {
@@ -33,7 +33,10 @@ const gameReducer = (state = initialState, action) => {
         turn: action.payload,
       };
     case RESTART:
-      return initialState;
+      return {
+        ...state,
+        ...initialState,
+      };
     default:
       return state;
   }

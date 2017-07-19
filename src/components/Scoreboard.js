@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { CHOOSE_PLAYER_SYMBOL } from '../actions/constants';
+import { X, O } from '../symbols/symbols';
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,34 +10,22 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const PlayersWrapper = styled.div`
-  display: flex;
-  width: 100%;
-`;
-
-const PlayerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1 0 auto;
-`;
-
-const PlayerTitle = styled.h2`
-  color: black;
-  text-decoration: underline;
-  text-transform: uppercase;
-`;
-
-const PlayerSymbol = styled.p`margin: 0;`;
-
 const Header = styled.h3`
   text-align: center;
   color: black;
 `;
 
-const ChoicesForm = styled.form`
+const ChoicesWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+  width: 100%;
+`;
+
+const ChoicesForm = styled.form`
+  display: ${props => (!props.hide ? 'flex' : 'none')};
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -50,54 +39,38 @@ const Scoreboard = props => {
   return (
     <Wrapper>
       <h1>FCC Tic-tac-toe</h1>
-      <Header>
-        {'Choose your symbol (X or O)'}
-      </Header>
-      <ChoicesForm>
-        <InputWrapper>
-          <ChoiceInput
-            type="radio"
-            name="choice"
-            value="X"
-            onChange={props.choosePlayerSymbol}
-          />
-          {'X'}
-        </InputWrapper>
-        <InputWrapper>
-          <ChoiceInput
-            type="radio"
-            name="choice"
-            value="O"
-            onChange={props.choosePlayerSymbol}
-          />
-          {'O'}
-        </InputWrapper>
+      <ChoicesForm hide={props.turn}>
+        <Header>
+          {'Choose your symbol (X or O)'}
+        </Header>
+        <ChoicesWrapper>
+          <InputWrapper>
+            <ChoiceInput
+              type="radio"
+              name="choice"
+              value={X}
+              onChange={props.choosePlayerSymbol}
+            />
+            {X}
+          </InputWrapper>
+          <InputWrapper>
+            <ChoiceInput
+              type="radio"
+              name="choice"
+              value={O}
+              onChange={props.choosePlayerSymbol}
+            />
+            {O}
+          </InputWrapper>
+        </ChoicesWrapper>
       </ChoicesForm>
-      <PlayersWrapper>
-        <PlayerWrapper>
-          <PlayerTitle>
-            {'You'}
-          </PlayerTitle>
-          <PlayerSymbol>
-            {'X'}
-          </PlayerSymbol>
-        </PlayerWrapper>
-        <PlayerWrapper>
-          <PlayerTitle>
-            {'AI'}
-          </PlayerTitle>
-          <PlayerSymbol>
-            {'O'}
-          </PlayerSymbol>
-        </PlayerWrapper>
-      </PlayersWrapper>
     </Wrapper>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    symbolChoice: state.symbolChoice,
+    turn: state.turn,
   };
 };
 
