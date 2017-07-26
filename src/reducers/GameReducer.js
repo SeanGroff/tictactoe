@@ -5,6 +5,7 @@ import {
   RESTART,
 } from '../actions/constants';
 import { X, O } from '../symbols/symbols';
+import { getRows, hasWonInRow, hasWonInColumn, isDraw } from '../logic/logic';
 
 export const initialState = {
   gameBoard: {
@@ -20,10 +21,18 @@ export const initialState = {
 const gameReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_SYMBOL:
+      const { symbol, position, row } = action.payload;
       const newState = _cloneDeep(state);
-      newState.gameBoard[action.payload.row][action.payload.position] =
-        newState.turn;
-      if (!newState.won) {
+      newState.gameBoard[row][position] = newState.turn;
+      const rows = getRows(newState.gameBoard);
+
+      newState.won =
+        hasWonInRow(symbol, newState.gameBoard[row]) ||
+        hasWonInColumn(symbol, row, position, ...rows);
+
+      // newState.draw = isDraw();
+
+      if (!newState.won && !newState.draw) {
         newState.turn = newState.turn === O ? X : O;
       }
       return newState;

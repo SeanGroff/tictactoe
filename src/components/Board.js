@@ -68,6 +68,7 @@ const Board = props => {
 
 const mapStateToProps = state => ({
   turn: state.turn,
+  won: state.won,
   gameBoard: state.gameBoard,
 });
 
