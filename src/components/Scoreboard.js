@@ -49,6 +49,7 @@ const Scoreboard = props => {
               type="radio"
               name="choice"
               value={X}
+              checked={props.turn}
               onChange={props.choosePlayerSymbol}
             />
             {X}
@@ -58,6 +59,7 @@ const Scoreboard = props => {
               type="radio"
               name="choice"
               value={O}
+              checked={props.turn}
               onChange={props.choosePlayerSymbol}
             />
             {O}

@@ -5,7 +5,14 @@ import {
   RESTART,
 } from '../actions/constants';
 import { X, O } from '../symbols/symbols';
-import { getRows, hasWonInRow, hasWonInColumn, isDraw } from '../logic/logic';
+import {
+  getRows,
+  hasWonInRow,
+  hasWonInColumn,
+  hasWonInLeftSlant,
+  hasWonInRightSlant,
+  isDraw,
+} from '../logic/logic';
 
 export const initialState = {
   gameBoard: {
@@ -16,6 +23,7 @@ export const initialState = {
   won: undefined,
   draw: false,
   turn: '',
+  turnNumber: 1,
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -28,12 +36,17 @@ const gameReducer = (state = initialState, action) => {
 
       newState.won =
         hasWonInRow(symbol, newState.gameBoard[row]) ||
-        hasWonInColumn(symbol, row, position, ...rows);
+        hasWonInColumn(symbol, row, position, ...rows) ||
+        hasWonInLeftSlant(symbol, ...rows) ||
+        hasWonInRightSlant(symbol, ...rows);
 
-      // newState.draw = isDraw();
+      if (!newState.won) {
+        newState.draw = isDraw(newState.turnNumber);
+      }
 
       if (!newState.won && !newState.draw) {
         newState.turn = newState.turn === O ? X : O;
+        newState.turnNumber += 1;
       }
       return newState;
     case CHOOSE_PLAYER_SYMBOL:

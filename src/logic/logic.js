@@ -29,9 +29,38 @@ export const hasWonInColumn = (symbol, rowNumber, colNumber, ...rows) =>
   countInColumn(symbol, rowNumber, colNumber, ...rows) === 3;
 
 /* ============================================================================
+                                 Left Diagonal/Slant Logic
+============================================================================= */
+export const countInLeftSlant = (symbol, ...rows) => {
+  const [row0, row1, row2] = rows;
+  return [row0[0], row1[1], row2[2]].filter(cell => cell === symbol).length;
+};
+
+export const hasThreatInLeftSlant = (symbol, ...rows) =>
+  countInLeftSlant(symbol, ...rows) === 2;
+
+export const hasWonInLeftSlant = (symbol, ...rows) =>
+  countInLeftSlant(symbol, ...rows) === 3;
+
+/* ============================================================================
+                                 Right Diagonal/Slant Logic
+============================================================================= */
+
+export const countInRightSlant = (symbol, ...rows) => {
+  const [row0, row1, row2] = rows;
+  return [row0[2], row1[1], row2[0]].filter(cell => cell === symbol).length;
+};
+
+export const hasThreatInRightSlant = (symbol, ...rows) =>
+  countInRightSlant(symbol, ...rows) === 2;
+
+export const hasWonInRightSlant = (symbol, ...rows) =>
+  countInRightSlant(symbol, ...rows) === 3;
+
+/* ============================================================================
                                  Game Logic
 ============================================================================= */
 export const getRows = gameBoard =>
   Object.keys(gameBoard).map(row => gameBoard[row]);
 
-// export const isDraw = gameBoard => gameBoard.map((row, index) => row[index  ]);
+export const isDraw = turnNumber => turnNumber === 9;

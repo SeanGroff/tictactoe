@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import XSymbol from './XSymbol';
 import OSymbol from './OSymbol';
 import BlankSymbol from './BlankSymbol';
-import { ADD_SYMBOL } from '../actions/constants';
+import { ADD_SYMBOL, RESTART } from '../actions/constants';
 import { X, O } from '../symbols/symbols';
 
 const BoardContainer = styled.div`
@@ -30,6 +30,10 @@ const Cell = styled.span`
 `;
 
 const Board = props => {
+  if (props.draw || props.won) {
+    props.restart();
+  }
+
   const addSymbol = (rowIndex, cellPosition, symbol) =>
     !props.won && props.addSymbol(rowIndex, cellPosition, symbol);
 
@@ -68,6 +72,7 @@ const Board = props => {
 
 const mapStateToProps = state => ({
   turn: state.turn,
+  draw: state.draw,
   won: state.won,
   gameBoard: state.gameBoard,
 });
@@ -82,6 +87,7 @@ const mapDispatchToProps = dispatch => ({
         symbol,
       },
     }),
+  restart: () => dispatch({ type: RESTART }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
