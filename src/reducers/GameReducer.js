@@ -12,13 +12,14 @@ import {
   hasWonInLeftSlant,
   hasWonInRightSlant,
   isDraw,
+  getEmptyTiles,
 } from '../logic/logic';
 
 export const initialState = {
   gameBoard: {
-    0: ['', '', ''],
-    1: ['', '', ''],
-    2: ['', '', ''],
+    0: [0, 1, 2],
+    1: [3, 4, 5],
+    2: [6, 7, 8],
   },
   won: undefined,
   draw: false,
@@ -34,6 +35,10 @@ const gameReducer = (state = initialState, action) => {
       newState.gameBoard[row][position] = newState.turn;
       const rows = getRows(newState.gameBoard);
 
+      // minimax AI
+      const availableTiles = getEmptyTiles(newState.gameBoard);
+      console.log('available tiles: ', availableTiles);
+
       newState.won =
         hasWonInRow(symbol, newState.gameBoard[row]) ||
         hasWonInColumn(symbol, row, position, ...rows) ||
@@ -41,7 +46,7 @@ const gameReducer = (state = initialState, action) => {
         hasWonInRightSlant(symbol, ...rows);
 
       if (!newState.won) {
-        newState.draw = isDraw(newState.turnNumber);
+        newState.draw = isDraw(newState.gameBoard);
       }
 
       if (!newState.won && !newState.draw) {

@@ -1,3 +1,5 @@
+import _flatten from 'lodash/flatten';
+
 /* ============================================================================
                                  Row Logic
 ============================================================================= */
@@ -63,4 +65,9 @@ export const hasWonInRightSlant = (symbol, ...rows) =>
 export const getRows = gameBoard =>
   Object.keys(gameBoard).map(row => gameBoard[row]);
 
-export const isDraw = turnNumber => turnNumber === 9;
+export const isDraw = gameBoard => getEmptyTiles(gameBoard).length === 0;
+
+export const getEmptyTiles = gameBoard =>
+  _flatten(Object.keys(gameBoard).map(row => gameBoard[row])).filter(
+    tile => tile !== 'X' && tile !== 'O',
+  );
