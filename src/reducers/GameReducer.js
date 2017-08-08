@@ -13,6 +13,7 @@ import {
   hasWonInRightSlant,
   isDraw,
   getEmptyTiles,
+  winningMove,
 } from '../logic/logic';
 
 export const initialState = {
@@ -24,6 +25,8 @@ export const initialState = {
   won: undefined,
   draw: false,
   turn: '',
+  humanPlayer: '',
+  aiPlayer: '',
   turnNumber: 1,
 };
 
@@ -38,6 +41,7 @@ const gameReducer = (state = initialState, action) => {
       // minimax AI
       const availableTiles = getEmptyTiles(newState.gameBoard);
       console.log('available tiles: ', availableTiles);
+      // const foundWinningMove = winningMove();
 
       newState.won =
         hasWonInRow(symbol, newState.gameBoard[row]) ||
@@ -58,6 +62,8 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         turn: action.payload,
+        humanPlayer: action.payload,
+        aiPlayer: action.payload === O ? X : O,
       };
     case RESTART:
       return {

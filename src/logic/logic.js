@@ -65,9 +65,28 @@ export const hasWonInRightSlant = (symbol, ...rows) =>
 export const getRows = gameBoard =>
   Object.keys(gameBoard).map(row => gameBoard[row]);
 
+export const flattenBoard = gameBoard =>
+  _flatten(Object.keys(gameBoard).map(row => gameBoard[row]));
+
 export const isDraw = gameBoard => getEmptyTiles(gameBoard).length === 0;
 
 export const getEmptyTiles = gameBoard =>
-  _flatten(Object.keys(gameBoard).map(row => gameBoard[row])).filter(
-    tile => tile !== 'X' && tile !== 'O',
-  );
+  flattenBoard(gameBoard).filter(tile => tile !== 'X' && tile !== 'O');
+
+export const winningMove = (player, gameBoard) => {
+  const board = flattenBoard(gameBoard);
+  if (
+    (board[0] === player && board[1] === player && board[2] === player) ||
+    (board[3] === player && board[4] === player && board[5] === player) ||
+    (board[6] === player && board[7] === player && board[8] === player) ||
+    (board[0] === player && board[3] === player && board[6] === player) ||
+    (board[1] === player && board[4] === player && board[7] === player) ||
+    (board[2] === player && board[5] === player && board[8] === player) ||
+    (board[0] === player && board[4] === player && board[8] === player) ||
+    (board[2] === player && board[4] === player && board[6] === player)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
