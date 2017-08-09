@@ -1,4 +1,5 @@
 import _flatten from 'lodash/flatten';
+import store from '../store';
 
 /* ============================================================================
                                  Row Logic
@@ -89,4 +90,65 @@ export const winningMove = (player, gameBoard) => {
   } else {
     return false;
   }
+};
+
+export const minimax = (currentPlayer, newBoard) => {
+  let moves = [];
+  let bestMove;
+  const { humanPlayer, aiPlayer } = store.getState();
+  const availableTiles = getEmptyTiles(newBoard);
+
+  // checks for the terminal states such as win, lose, or tie
+  // and return a value accordingly
+  if (winningMove(humanPlayer, newBoard)) {
+    return { score: -10 };
+  } else if (winningMove(aiPlayer, newBoard)) {
+    return { score: 10 };
+  } else if (isDraw(newBoard)) {
+    return { score: 0 };
+  }
+
+  availableTiles.forEach((tile, index) => {
+    // create object for each and store index of that tile
+    let move = {};
+
+    // set the empty tile to the current player
+    newBoard[availableTiles[index]] = currentPlayer;
+
+    /* collect the score resulted from calling minimax
+      on the opponent of the current player */
+    if (currentPlayer === aiPlayer) {
+      const { score } = minimax(humanPlayer, newBoard);
+      move.score = score;
+    } else {
+      const { score } = minimax(aiPlayer, newBoard);
+      move.score = score;
+    }
+
+    // reset the spot to empty
+    newBoard[availableTiles[index]] = tile;
+
+    // push the object to the array
+    moves.push(move);
+
+    if (currentPlayer === aiPlayer) {
+      let bestScore = -9999;
+      moves.forEach((move, index) => {
+        if (move.score > bestScore) {
+          bestScore = move.score;
+          bestMove = index;
+        }
+      });
+    } else {
+      let bestScore = 9999;
+      moves.forEach((move, index) => {
+        if (move.score < bestScore) {
+          bestScore = move.score;
+          bestMove = index;
+        }
+      });
+    }
+
+    return moves[bestMove];
+  });
 };
