@@ -14,6 +14,7 @@ const BoardContainer = styled.div`
   align-items: center;
   max-width: 150px;
   margin: auto;
+  font-family: 'Permanent Marker', cursive;
 `;
 
 const Row = styled.div`
@@ -27,6 +28,7 @@ const Cell = styled.span`
   align-items: center;
   width: 50px;
   height: 50px;
+  font-size: 36px;
 `;
 
 const Board = props => {

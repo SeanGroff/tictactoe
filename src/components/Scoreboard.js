@@ -10,10 +10,13 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Header = styled.h3`
-  text-align: center;
-  color: black;
+const Title = styled.h1`
+  font-family: 'Play', sans-serif;
+  font-size: 40px;
+  letter-spacing: 1px;
 `;
+
+const Header = styled.h3`text-align: center;`;
 
 const ChoicesWrapper = styled.div`
   display: flex;
@@ -31,17 +34,22 @@ const ChoicesForm = styled.form`
   width: 100%;
 `;
 
-const InputWrapper = styled.div`display: flex;`;
+const InputWrapper = styled.div`
+  display: flex;
+  font-family: 'Permanent Marker', cursive;
+`;
 
 const ChoiceInput = styled.input`margin-right: 15px;`;
 
 const Scoreboard = props => {
   return (
     <Wrapper>
-      <h1>FCC Tic-tac-toe</h1>
+      <Title>
+        {'FCC TicTacToe'}
+      </Title>
       <ChoicesForm hide={props.turn}>
         <Header>
-          {'Choose your symbol (X or O)'}
+          {'Choose your symbol'}
         </Header>
         <ChoicesWrapper>
           <InputWrapper>
