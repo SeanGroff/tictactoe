@@ -1,81 +1,17 @@
-import _flatten from 'lodash/flatten';
 import store from '../store';
-
-/* ============================================================================
-                                 Row Logic
-============================================================================= */
-/**
- * @method countInRow
- *
- * @param {string} symbol
- * @param {array} row
- *
- * @returns {number} symbol count for row
- */
-export const countInRow = (symbol, row) =>
-  row.filter(cell => cell === symbol).length;
-
-export const hasThreatInRow = (symbol, row) => countInRow(symbol, row) === 2;
-
-export const hasWonInRow = (symbol, row) => countInRow(symbol, row) === 3;
-
-/* ============================================================================
-                                 Column Logic
-============================================================================= */
-export const countInColumn = (symbol, rowNumber, colNumber, ...rows) =>
-  rows.map(row => row[colNumber]).filter(cell => cell === symbol).length;
-
-export const hasThreatInColumn = (symbol, row, colNumber, ...rows) =>
-  countInColumn(symbol, colNumber, ...rows) === 2;
-
-export const hasWonInColumn = (symbol, rowNumber, colNumber, ...rows) =>
-  countInColumn(symbol, rowNumber, colNumber, ...rows) === 3;
-
-/* ============================================================================
-                                 Left Diagonal/Slant Logic
-============================================================================= */
-export const countInLeftSlant = (symbol, ...rows) => {
-  const [row0, row1, row2] = rows;
-  return [row0[0], row1[1], row2[2]].filter(cell => cell === symbol).length;
-};
-
-export const hasThreatInLeftSlant = (symbol, ...rows) =>
-  countInLeftSlant(symbol, ...rows) === 2;
-
-export const hasWonInLeftSlant = (symbol, ...rows) =>
-  countInLeftSlant(symbol, ...rows) === 3;
-
-/* ============================================================================
-                                 Right Diagonal/Slant Logic
-============================================================================= */
-
-export const countInRightSlant = (symbol, ...rows) => {
-  const [row0, row1, row2] = rows;
-  return [row0[2], row1[1], row2[0]].filter(cell => cell === symbol).length;
-};
-
-export const hasThreatInRightSlant = (symbol, ...rows) =>
-  countInRightSlant(symbol, ...rows) === 2;
-
-export const hasWonInRightSlant = (symbol, ...rows) =>
-  countInRightSlant(symbol, ...rows) === 3;
 
 /* ============================================================================
                                  Game Logic
 ============================================================================= */
-export const getRows = gameBoard =>
-  Object.keys(gameBoard).map(row => gameBoard[row]);
-
-export const flattenBoard = gameBoard =>
-  _flatten(Object.keys(gameBoard).map(row => gameBoard[row]));
 
 export const isDraw = gameBoard => getEmptyTiles(gameBoard).length === 0;
 
-export const getEmptyTiles = gameBoard =>
-  flattenBoard(gameBoard).filter(tile => tile !== 'X' && tile !== 'O');
+const getEmptyTiles = gameBoard =>
+  gameBoard.filter(tile => {
+    return tile !== 'X' && tile !== 'O';
+  });
 
-export const winningMove = (player, gameBoard) => {
-  const board = flattenBoard(gameBoard);
+export const winningMove = (player, board) => {
   if (
     (board[0] === player && board[1] === player && board[2] === player) ||
     (board[3] === player && board[4] === player && board[5] === player) ||
@@ -92,63 +28,58 @@ export const winningMove = (player, gameBoard) => {
   }
 };
 
-export const minimax = (currentPlayer, newBoard) => {
-  let moves = [];
-  let bestMove;
+export const miniMax = (board, currPlayer) => {
   const { humanPlayer, aiPlayer } = store.getState();
-  const availableTiles = getEmptyTiles(newBoard);
 
-  // checks for the terminal states such as win, lose, or tie
-  // and return a value accordingly
-  if (winningMove(humanPlayer, newBoard)) {
-    return { score: -10 };
-  } else if (winningMove(aiPlayer, newBoard)) {
+  // available tiles on the game board
+  const availableTiles = getEmptyTiles(board);
+
+  // Base Case - checks for the terminal states such as win, lose, or tie and returns a value accordingly
+  if (winningMove(aiPlayer, board)) {
     return { score: 10 };
-  } else if (isDraw(newBoard)) {
+  } else if (winningMove(humanPlayer, board)) {
+    return { score: -10 };
+  } else if (!availableTiles.length) {
     return { score: 0 };
   }
 
-  availableTiles.forEach((tile, index) => {
-    // create object for each and store index of that tile
-    let move = {};
+  // Create a list of all possible moves given the current game state
+  const moves = availableTiles.map(tile => {
+    // Generate a new board with the current position replaced by the current player symbol
+    const newBoard = board.map(newTile => {
+      if (newTile === tile) {
+        return currPlayer;
+      }
+      return newTile;
+    });
 
-    // set the empty tile to the current player
-    newBoard[availableTiles[index]] = currentPlayer;
+    // Switch to the other player (!currPlayer)
+    const otherPlayer = currPlayer === humanPlayer ? aiPlayer : humanPlayer;
 
-    /* collect the score resulted from calling minimax
-      on the opponent of the current player */
-    if (currentPlayer === aiPlayer) {
-      const { score } = minimax(humanPlayer, newBoard);
-      move.score = score;
-    } else {
-      const { score } = minimax(aiPlayer, newBoard);
-      move.score = score;
-    }
-
-    // reset the spot to empty
-    newBoard[availableTiles[index]] = tile;
-
-    // push the object to the array
-    moves.push(move);
-
-    if (currentPlayer === aiPlayer) {
-      let bestScore = -9999;
-      moves.forEach((move, index) => {
-        if (move.score > bestScore) {
-          bestScore = move.score;
-          bestMove = index;
-        }
-      });
-    } else {
-      let bestScore = 9999;
-      moves.forEach((move, index) => {
-        if (move.score < bestScore) {
-          bestScore = move.score;
-          bestMove = index;
-        }
-      });
-    }
-
-    return moves[bestMove];
+    return {
+      tile,
+      score: miniMax(newBoard, otherPlayer).score,
+    };
   });
+
+  // Get best move for the current player
+  const bestMove = moves.reduce((prev, current) => {
+    // The human player will choose the board that will minimize the AI score
+    if (currPlayer === humanPlayer) {
+      if (current.score < prev.score) {
+        return current;
+      }
+      return prev;
+    }
+
+    // The AI will choose the board that will maximize the AI score
+    if (currPlayer === aiPlayer) {
+      if (current.score > prev.score) {
+        return current;
+      }
+      return prev;
+    }
+  });
+
+  return bestMove;
 };

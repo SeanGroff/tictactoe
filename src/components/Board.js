@@ -12,14 +12,9 @@ const BoardContainer = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  max-width: 150px;
+  max-width: 170px;
   margin: auto;
   font-family: 'Permanent Marker', cursive;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
 `;
 
 const Cell = styled.span`
@@ -36,10 +31,10 @@ const Board = props => {
     props.restart();
   }
 
-  const addSymbol = (rowIndex, cellPosition, symbol) =>
-    !props.won && props.addSymbol(rowIndex, cellPosition, symbol);
+  const addSymbol = (symbol, tile) =>
+    !props.won && props.addSymbol(symbol, tile);
 
-  const getSymbol = (rowIndex, cellPosition, symbol) => {
+  const getSymbol = (symbol, tile) => {
     if (symbol === X) {
       return <XSymbol />;
     }
@@ -47,26 +42,15 @@ const Board = props => {
     if (symbol === O) {
       return <OSymbol />;
     }
-    return (
-      <BlankSymbol
-        addSymbol={addSymbol}
-        row={rowIndex}
-        cell={cellPosition}
-        turn={props.turn}
-      />
-    );
+    return <BlankSymbol addSymbol={addSymbol} symbol={symbol} tile={tile} />;
   };
 
   return (
     <BoardContainer hide={props.turn}>
-      {Object.keys(props.gameBoard).map(rowIndex =>
-        <Row id={`row-${rowIndex}`} key={rowIndex}>
-          {props.gameBoard[rowIndex].map((symbol, cellPosition) =>
-            <Cell id={`col-${rowIndex}-${cellPosition}`} key={cellPosition}>
-              {getSymbol(rowIndex, cellPosition, symbol)}
-            </Cell>,
-          )}
-        </Row>,
+      {props.gameBoard.map((tile, tileIndex) =>
+        <Cell id={`col-${tileIndex}`} key={tileIndex}>
+          {getSymbol(tile, tileIndex)}
+        </Cell>,
       )}
     </BoardContainer>
   );
@@ -80,13 +64,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addSymbol: (row, position, symbol) =>
+  addSymbol: (symbol, tile) =>
     dispatch({
       type: ADD_SYMBOL,
       payload: {
-        row,
-        position,
         symbol,
+        tile,
       },
     }),
   restart: () => dispatch({ type: RESTART }),

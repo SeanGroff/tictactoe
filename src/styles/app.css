@@ -29,21 +29,26 @@ body {
   font-family: Courier New, Courier, monospace;
 }
 
-#row-0 {
-  border-color: green;
-  border-style: solid;
-  border-width: 0 0 3px 0;
-}
-
-#row-2 {
-  border-color: green;
-  border-style: solid;
-  border-width: 3px 0 0 0;
-}
-
-span[id$='1'] {
-  border-color: green;
-  border-style: solid;
-  border-width: 0 3px 0 3px;
+/* Board Tile */
+span {
+  border-right: 3px solid green;
+  border-bottom: 3px solid green;
   width: 56px;
+  height: 56px;
+}
+
+/* right column */
+span[id$='2'],
+span[id$='5'],
+span[id$='8'] {
+  border-right: none;
+  width: 47px;
+}
+
+/* bottom row */
+span[id$='6'],
+span[id$='7'],
+span[id$='8'] {
+  border-bottom: none;
+  height: 47px;
 }

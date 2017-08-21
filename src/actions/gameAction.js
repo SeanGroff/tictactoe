@@ -1,11 +1,10 @@
 import { ADD_SYMBOL, CHOOSE_PLAYER_SYMBOL, RESTART } from './constants';
 
-export const addSymbol = (row, position, symbol) => ({
+export const addSymbol = (symbol, tile) => ({
   type: ADD_SYMBOL,
   payload: {
-    row,
-    position,
     symbol,
+    tile,
   },
 });
 
