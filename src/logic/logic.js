@@ -103,8 +103,8 @@ export const humanPlayerTurn = (symbol, tile, state) => {
   return {
     ...state,
     ...newState,
-    ...won,
-    ...draw,
+    won,
+    draw,
   };
 };
 
@@ -119,7 +119,7 @@ export const aiPlayerTurn = humanPlayerState => {
 
   return {
     ...newState,
-    ...won,
-    ...draw,
+    won,
+    draw,
   };
 };
