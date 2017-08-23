@@ -70,7 +70,7 @@ const mapDispatchToProps = dispatch => ({
         tile,
       },
     }),
-  restart: () => dispatch({ type: RESTART }),
+  restart: () => dispatch({ type: RESTART }), // maybe implement Reselect?
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
