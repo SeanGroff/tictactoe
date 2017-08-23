@@ -1,15 +1,16 @@
+import _cloneDeep from 'lodash/cloneDeep';
 import store from '../store';
 
 /* ============================================================================
                                  Game Logic
 ============================================================================= */
 
-export const isDraw = gameBoard => getEmptyTiles(gameBoard).length === 0;
-
 const getEmptyTiles = gameBoard =>
   gameBoard.filter(tile => {
     return tile !== 'X' && tile !== 'O';
   });
+
+export const isDraw = gameBoard => getEmptyTiles(gameBoard).length === 0;
 
 export const winningMove = (player, board) => {
   if (
@@ -28,7 +29,17 @@ export const winningMove = (player, board) => {
   }
 };
 
-export const miniMax = (board, currPlayer) => {
+export const isGameOver = (player, board) => {
+  if (winningMove(player, board)) {
+    return { won: true, draw: false };
+  } else if (isDraw(board)) {
+    return { won: false, draw: true };
+  } else {
+    return { won: false, draw: false };
+  }
+};
+
+const miniMax = (board, currPlayer) => {
   const { humanPlayer, aiPlayer } = store.getState();
 
   // available tiles on the game board
@@ -82,4 +93,33 @@ export const miniMax = (board, currPlayer) => {
   });
 
   return bestMove;
+};
+
+export const humanPlayerTurn = (symbol, tile, state) => {
+  const newState = _cloneDeep(state);
+  newState.gameBoard[tile] = symbol;
+  const { won, draw } = isGameOver(symbol, newState.gameBoard);
+
+  return {
+    ...state,
+    ...newState,
+    ...won,
+    ...draw,
+  };
+};
+
+export const aiPlayerTurn = humanPlayerState => {
+  if (humanPlayerState.won || humanPlayerState.draw) return humanPlayerState;
+
+  const newState = _cloneDeep(humanPlayerState);
+  const aiMove = miniMax(newState.gameBoard, newState.aiPlayer).tile;
+  newState.gameBoard[aiMove] = newState.aiPlayer;
+
+  const { won, draw } = isGameOver(newState.aiPlayer, newState.gameBoard);
+
+  return {
+    ...newState,
+    ...won,
+    ...draw,
+  };
 };

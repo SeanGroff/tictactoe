@@ -41,13 +41,13 @@ const InputWrapper = styled.div`
 
 const ChoiceInput = styled.input`margin-right: 15px;`;
 
-const Scoreboard = props => {
+const Scoreboard = ({ humanPlayer, choosePlayerSymbol }) => {
   return (
     <Wrapper>
       <Title>
         {'FCC TicTacToe'}
       </Title>
-      <ChoicesForm hide={props.turn}>
+      <ChoicesForm hide={humanPlayer}>
         <Header>
           {'Choose your symbol'}
         </Header>
@@ -57,8 +57,8 @@ const Scoreboard = props => {
               type="radio"
               name="choice"
               value={X}
-              checked={props.turn}
-              onChange={props.choosePlayerSymbol}
+              checked={humanPlayer}
+              onChange={choosePlayerSymbol}
             />
             {X}
           </InputWrapper>
@@ -67,8 +67,8 @@ const Scoreboard = props => {
               type="radio"
               name="choice"
               value={O}
-              checked={props.turn}
-              onChange={props.choosePlayerSymbol}
+              checked={humanPlayer}
+              onChange={choosePlayerSymbol}
             />
             {O}
           </InputWrapper>
@@ -80,7 +80,7 @@ const Scoreboard = props => {
 
 const mapStateToProps = state => {
   return {
-    turn: state.turn,
+    humanPlayer: state.humanPlayer,
   };
 };
 

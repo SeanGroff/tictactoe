@@ -31,8 +31,7 @@ const Board = props => {
     props.restart();
   }
 
-  const addSymbol = (symbol, tile) =>
-    !props.won && props.addSymbol(symbol, tile);
+  const addSymbol = tile => !props.won && props.addSymbol(tile);
 
   const getSymbol = (symbol, tile) => {
     if (symbol === X) {
@@ -46,7 +45,7 @@ const Board = props => {
   };
 
   return (
-    <BoardContainer hide={props.turn}>
+    <BoardContainer hide={props.humanPlayer}>
       {props.gameBoard.map((tile, tileIndex) =>
         <Cell id={`col-${tileIndex}`} key={tileIndex}>
           {getSymbol(tile, tileIndex)}
@@ -57,18 +56,17 @@ const Board = props => {
 };
 
 const mapStateToProps = state => ({
-  turn: state.turn,
+  humanPlayer: state.humanPlayer,
   draw: state.draw,
   won: state.won,
   gameBoard: state.gameBoard,
 });
 
 const mapDispatchToProps = dispatch => ({
-  addSymbol: (symbol, tile) =>
+  addSymbol: tile =>
     dispatch({
       type: ADD_SYMBOL,
       payload: {
-        symbol,
         tile,
       },
     }),

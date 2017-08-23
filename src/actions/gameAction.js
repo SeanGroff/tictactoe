@@ -1,9 +1,8 @@
 import { ADD_SYMBOL, CHOOSE_PLAYER_SYMBOL, RESTART } from './constants';
 
-export const addSymbol = (symbol, tile) => ({
+export const addSymbol = tile => ({
   type: ADD_SYMBOL,
   payload: {
-    symbol,
     tile,
   },
 });
