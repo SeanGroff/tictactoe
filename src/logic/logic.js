@@ -77,19 +77,14 @@ const miniMax = (board, currPlayer) => {
   const bestMove = moves.reduce((prev, current) => {
     // The human player will choose the board that will minimize the AI score
     if (currPlayer === humanPlayer) {
-      if (current.score < prev.score) {
-        return current;
-      }
+      if (current.score < prev.score) return current;
       return prev;
+    } else {
+      // ai wants the move with the highest score
+      if (current.score > prev.score) return current;
     }
 
-    // The AI will choose the board that will maximize the AI score
-    if (currPlayer === aiPlayer) {
-      if (current.score > prev.score) {
-        return current;
-      }
-      return prev;
-    }
+    return prev;
   });
 
   return bestMove;
