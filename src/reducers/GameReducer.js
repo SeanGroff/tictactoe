@@ -33,9 +33,6 @@ const gameReducer = (state = initialState, action) => {
         aiPlayer: action.payload === O ? X : O,
       };
     case RESTART:
-      /**
-       * @todo Fix the restart bug!
-       */
       return {
         ...state,
         ...initialState,

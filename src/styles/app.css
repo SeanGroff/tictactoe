@@ -3,7 +3,8 @@
 body {
   margin: 0;
   height: 100vh;
-  background: black;
+  background: #7474bf; /* fallback for old browsers */
+  background: linear-gradient(to right, #348ac7, #7474bf);
 }
 
 * {
@@ -25,14 +26,14 @@ body {
   height: 100%;
   width: 350px;
   padding: 15px;
-  color: green;
+  color: white;
   font-family: Courier New, Courier, monospace;
 }
 
 /* Board Tile */
 span {
-  border-right: 3px solid green;
-  border-bottom: 3px solid green;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
   width: 56px;
   height: 56px;
 }

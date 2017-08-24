@@ -41,7 +41,7 @@ const InputWrapper = styled.div`
 
 const ChoiceInput = styled.input`margin-right: 15px;`;
 
-const Scoreboard = ({ humanPlayer, choosePlayerSymbol }) => {
+const Scoreboard = ({ terminalState, humanPlayer, choosePlayerSymbol }) => {
   return (
     <Wrapper>
       <Title>

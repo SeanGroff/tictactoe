@@ -1,4 +1,3 @@
-import _cloneDeep from 'lodash/cloneDeep';
 import store from '../store';
 
 /* ============================================================================
@@ -90,30 +89,39 @@ const miniMax = (board, currPlayer) => {
   return bestMove;
 };
 
+const insertMoveToTile = (symbol, tile, board) => [
+  ...board.slice(0, tile),
+  symbol,
+  ...board.slice(tile + 1),
+];
+
 export const humanPlayerTurn = (symbol, tile, state) => {
-  const newState = _cloneDeep(state);
-  newState.gameBoard[tile] = symbol;
-  const { won, draw } = isGameOver(symbol, newState.gameBoard);
+  const gameBoard = insertMoveToTile(symbol, tile, state.gameBoard);
+  const { won, draw } = isGameOver(symbol, state.gameBoard);
 
   return {
     ...state,
-    ...newState,
+    gameBoard,
     won,
     draw,
   };
 };
 
-export const aiPlayerTurn = humanPlayerState => {
-  if (humanPlayerState.won || humanPlayerState.draw) return humanPlayerState;
+export const aiPlayerTurn = newState => {
+  if (newState.won || newState.draw) return newState;
 
-  const newState = _cloneDeep(humanPlayerState);
   const aiMove = miniMax(newState.gameBoard, newState.aiPlayer).tile;
-  newState.gameBoard[aiMove] = newState.aiPlayer;
+  const gameBoard = insertMoveToTile(
+    newState.aiPlayer,
+    aiMove,
+    newState.gameBoard,
+  );
 
-  const { won, draw } = isGameOver(newState.aiPlayer, newState.gameBoard);
+  const { won, draw } = isGameOver(newState.aiPlayer, gameBoard);
 
   return {
     ...newState,
+    gameBoard,
     won,
     draw,
   };
