@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { compose, lifecycle } from 'recompose';
 import styled from 'styled-components';
 import XSymbol from './XSymbol';
 import OSymbol from './OSymbol';
@@ -25,48 +26,6 @@ const Cell = styled.span`
   height: 50px;
   font-size: 36px;
 `;
-class Board extends Component {
-  constructor(props) {
-    super(props);
-    this.addSymbol = this.addSymbol.bind(this);
-    this.getSymbol = this.getSymbol.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.draw || nextProps.won) {
-      nextProps.restart();
-    }
-  }
-
-  addSymbol(tile) {
-    return !this.props.won && this.props.addSymbol(tile);
-  }
-
-  getSymbol(symbol, tile) {
-    if (symbol === X) {
-      return <XSymbol />;
-    }
-
-    if (symbol === O) {
-      return <OSymbol />;
-    }
-    return (
-      <BlankSymbol addSymbol={this.addSymbol} symbol={symbol} tile={tile} />
-    );
-  }
-
-  render() {
-    return (
-      <BoardContainer hide={this.props.humanPlayer}>
-        {this.props.gameBoard.map((tile, tileIndex) =>
-          <Cell id={`col-${tileIndex}`} key={tileIndex}>
-            {this.getSymbol(tile, tileIndex)}
-          </Cell>,
-        )}
-      </BoardContainer>
-    );
-  }
-}
 
 const mapStateToProps = state => ({
   humanPlayer: state.humanPlayer,
@@ -86,4 +45,42 @@ const mapDispatchToProps = dispatch => ({
   restart: () => dispatch({ type: RESTART }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentWillReceiveProps(nextProps) {
+      if (nextProps.draw || nextProps.won) {
+        nextProps.restart();
+      }
+    },
+  }),
+);
+
+const Board = enhance(props => {
+  const addSymbol = tile => {
+    return !props.won && props.addSymbol(tile);
+  };
+
+  const getSymbol = (symbol, tile) => {
+    if (symbol === X) {
+      return <XSymbol />;
+    }
+
+    if (symbol === O) {
+      return <OSymbol />;
+    }
+    return <BlankSymbol addSymbol={addSymbol} symbol={symbol} tile={tile} />;
+  };
+
+  return (
+    <BoardContainer hide={props.humanPlayer}>
+      {props.gameBoard.map((tile, tileIndex) =>
+        <Cell id={`col-${tileIndex}`} key={tileIndex}>
+          {getSymbol(tile, tileIndex)}
+        </Cell>,
+      )}
+    </BoardContainer>
+  );
+});
+
+export default Board;
